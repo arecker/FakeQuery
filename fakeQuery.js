@@ -1,30 +1,18 @@
-var FakeQuery = function(){
-	var self = this;
-    self.pairs = [];
-	self.$ = function(id){
-		var inner = this;
-        inner.id = id;
-        inner.val = function(){
-        	return "Cat";
-        }
+var FakeQuery = function(data) {
+	var FakeQuery = this;
+	FakeQuery.data = data;
+
+	FakeQuery.Selector = function(input){
+		var Selector = this;
+		Selector.input = input;
+
+		Selector.val = function() {
+			var input = Selector.input;
+			return FakeQuery.data[input];
+		}
 	}
-    
-    self.$$ = function(id){
-        var d = new self.$(id);
-        return d;
-    }
-    
-    self.add = function(id, value){
-        self.pairs.push({
-        	id: value
-        });
-    }
+
+	FakeQuery.$ = function(selector) {
+		return new FakeQuery.Selector(selector);
+	}
 }
-
-var fq = new FakeQuery();
-var $ = fq.$$;
-
-// Code -->
-
-var response = $('#returnMe').val();
-alert(response);
